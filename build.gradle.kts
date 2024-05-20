@@ -23,3 +23,11 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
 }
+
+allprojects {
+    tasks.withType<JavaCompile> {
+        val compilerArgs = options.compilerArgs
+        compilerArgs.add("-Xlint:unchecked")
+        compilerArgs.add("-Xlint:deprecation")
+    }
+}
