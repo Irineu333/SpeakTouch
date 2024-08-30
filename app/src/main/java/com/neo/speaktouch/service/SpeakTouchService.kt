@@ -39,7 +39,7 @@ class SpeakTouchService : AccessibilityService() {
     override fun onCreate() {
         super.onCreate()
 
-        Controllers.install()
+        Controllers.install(this)
     }
 
     override fun onServiceConnected() {

@@ -1,6 +1,7 @@
 /*
  * Extensions for NodeInfo (AccessibilityNodeInfoCompat).
  *
+ * Copyright (C) 2023-2025 Patryk Mis.
  * Copyright (C) 2023 Irineu A. Silva.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,12 +55,11 @@ operator fun AccessibilityNodeInfoCompat.iterator() =
 
     }
 
-context(NodeScanScope)
-fun AccessibilityNodeInfo.performFocus(mustStop: Boolean = true) {
+fun AccessibilityNodeInfo.performFocus(scope: NodeScanScope, mustStop: Boolean = true) {
 
     performAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS)
 
-    if (mustStop) stop(result = this)
+    if (mustStop) scope.stop(result = this)
 }
 
 fun AccessibilityNodeInfo.getFocusedOrNull(): AccessibilityNodeInfo? {

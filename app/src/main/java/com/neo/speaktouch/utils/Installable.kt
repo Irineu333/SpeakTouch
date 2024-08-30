@@ -25,9 +25,8 @@ abstract class Installable<T : Any> {
     protected var instance = WeakReference<T>(null)
         private set
 
-    context (T)
-    fun install() {
-        instance = WeakReference(this@T)
+    fun install(context: T) {
+        instance = WeakReference(context)
     }
 
     fun uninstall() {

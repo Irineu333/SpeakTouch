@@ -98,10 +98,6 @@ android {
         buildConfig = true
     }
 
-    compileOptions {
-        kotlinOptions.freeCompilerArgs += "-Xcontext-receivers"
-    }
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
