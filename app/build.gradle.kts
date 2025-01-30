@@ -29,7 +29,7 @@ val keystorePropertiesFile = rootProject.file("keystore.properties")
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
         vendor.set(JvmVendorSpec.ADOPTIUM)
     }
 }
@@ -43,7 +43,7 @@ appVersion(VersionConfig.Type.DEV) {
 android {
     namespace = "com.neo.speaktouch"
     compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "35.0.1"
 
     if (keystorePropertiesFile.canRead()) {
         signingConfigs {
@@ -64,15 +64,7 @@ android {
         configure<BasePluginExtension> { archivesName.set(rootProject.name) }
 
         minSdk = 22
-        targetSdk = 34
-
-        resourceConfigurations.addAll(
-            listOf(
-                "en",
-                "pl",
-                "pt"
-            )
-        )
+        targetSdk = 35
     }
 
     buildTypes {
@@ -96,6 +88,10 @@ android {
 
     buildFeatures {
         buildConfig = true
+    }
+
+    androidResources {
+        localeFilters += listOf("en", "pl", "pt")
     }
 
     testOptions {
