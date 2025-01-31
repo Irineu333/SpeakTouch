@@ -1,6 +1,7 @@
 /*
  * App build configurations.
  *
+ * Copyright (C) 2023-2025 Patryk Mis.
  * Copyright (C) 2023 Irineu A. Silva.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +24,7 @@ plugins {
     alias(libs.plugins.dagger)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    id("com.neo.speaktouch.custom_plugin")
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -34,10 +36,11 @@ kotlin {
     }
 }
 
-appVersion(VersionConfig.Type.DEV) {
+versionConfig {
     major = 1
     minor = 0
     patch = 0
+    type = VersionConfig.Type.DEV
 }
 
 android {
@@ -48,7 +51,7 @@ android {
     if (keystorePropertiesFile.canRead()) {
         signingConfigs {
             create("release") {
-                properties(keystorePropertiesFile) { properties ->
+                loadPropertiesFromFile(keystorePropertiesFile) { properties ->
                     storeFile = rootProject.file(properties.getProperty("storeFile"))
                     storePassword = properties.getProperty("storePassword")
                     keyAlias = properties.getProperty("keyAlias")

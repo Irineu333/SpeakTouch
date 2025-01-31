@@ -1,7 +1,7 @@
 /*
- * Top-level project Gradle settings file
+ * build-logic module Gradle configurations
  *
- * Copyright (C) 2023-2025 Patryk Mis.
+ * Copyright (C) 2023-2025 Patryk Miś.
  * Copyright (C) 2023 Irineu A. Silva.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,30 +17,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@file:Suppress("UnstableApiUsage")
-
-pluginManagement {
-    includeBuild("build-logic")
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-rootProject.name = "SpeakTouch"
-
-include("app")
-include("test")
-
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.9.0")
+    `kotlin-dsl`
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+        vendor.set(JvmVendorSpec.ADOPTIUM)
+    }
+}
+
+dependencies {
+    compileOnly(libs.android.gradlePluginApi)
+}
+
+gradlePlugin {
+    plugins {
+        create("customPlugin") {
+            id = "com.neo.speaktouch.custom_plugin"
+            implementationClass = "CustomPlugin"
+        }
+    }
 }

@@ -1,8 +1,8 @@
 /*
- * BuildSrc module Gradle configurations
+ * Project extensions.
  *
+ * Copyright (C) 2023-2025 Patryk Mis.
  * Copyright (C) 2023 Irineu A. Silva.
- * Copyright (C) 2023 Patryk Miś.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,17 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-plugins {
-    `kotlin-dsl`
-}
+import org.gradle.api.Project
+import java.io.File
+import java.io.FileInputStream
+import java.util.Properties
 
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-        vendor.set(JvmVendorSpec.ADOPTIUM)
+fun Project.loadPropertiesFromFile(file: File, onSuccess: (Properties) -> Unit) {
+    if (file.exists()) {
+        onSuccess(
+            Properties().apply {
+                load(FileInputStream(file))
+            }
+        )
     }
-}
-
-dependencies {
-    implementation(libs.android.gradlePluginApi)
 }
