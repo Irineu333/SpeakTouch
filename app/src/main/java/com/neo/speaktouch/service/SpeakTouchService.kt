@@ -24,17 +24,22 @@ import android.accessibilityservice.AccessibilityServiceInfo
 import android.os.Build
 import android.view.accessibility.AccessibilityEvent
 import com.neo.speaktouch.controller.Controllers
+import com.neo.speaktouch.controller.FocusController
 import com.neo.speaktouch.intercepter.Interceptors
 import com.neo.speaktouch.intercepter.event.contract.EventInterceptor
 import com.neo.speaktouch.utils.extension.addFlags
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import timber.log.Timber
 
 @AndroidEntryPoint
-class SpeakTouchService : AccessibilityService() {
+class SpeakTouchService : AccessibilityService () {
 
     @Inject
     lateinit var interceptors: Interceptors
+
+    @Inject
+    lateinit var focusController: FocusController
 
     override fun onCreate() {
         super.onCreate()
@@ -51,6 +56,14 @@ class SpeakTouchService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
+        when (event.eventType) {
+            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
+                val windowTitle = event.text.joinToString(" ").ifEmpty { "Unknown window" }
+                Timber.d("New window detected: $windowTitle")
+                focusController.moveFocusToFirst()
+            }
+        }
+
         interceptors.event.forEach {
             it.handle(event)
         }

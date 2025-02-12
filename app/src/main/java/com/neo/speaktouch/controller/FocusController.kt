@@ -125,4 +125,24 @@ class FocusController @Inject constructor(
             }
         }
     }
+
+    fun moveFocusToFirst() {
+        val root = getTarget() ?: return
+
+        val currentFocus = root.findFocus(AccessibilityNodeInfo.FOCUS_ACCESSIBILITY)
+
+        if (currentFocus == null) {
+            nodeScan {
+                root.descendants(Direction.Right()) {
+                    if (NodeFilter.Focusable.filter(current)) {
+                        current.performFocus(this)
+                    }
+                    recursive()
+                }
+            }
+            return
+        }
+
+        currentFocus.performAction(AccessibilityNodeInfo.ACTION_NEXT_AT_MOVEMENT_GRANULARITY)
+    }
 }
