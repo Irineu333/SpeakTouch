@@ -50,7 +50,7 @@ operator fun AccessibilityNodeInfoCompat.iterator() =
         }
 
         override fun next(): AccessibilityNodeInfoCompat {
-            return getChild(++index)
+            return getChild(++index) ?: throw NoSuchElementException("No more child nodes available")
         }
 
     }
