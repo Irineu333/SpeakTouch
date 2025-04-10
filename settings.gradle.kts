@@ -1,6 +1,7 @@
 /*
  * Top-level project Gradle settings file
  *
+ * Copyright (C) 2023-2025 Patryk Mis.
  * Copyright (C) 2023 Irineu A. Silva.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,6 +20,7 @@
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -38,3 +40,7 @@ rootProject.name = "SpeakTouch"
 
 include("app")
 include("test")
+
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version("0.9.0")
+}

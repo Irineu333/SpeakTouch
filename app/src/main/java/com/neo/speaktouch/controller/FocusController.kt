@@ -1,6 +1,7 @@
 /*
  * Focus controller.
  *
+ * Copyright (C) 2023-2025 Patryk Mis.
  * Copyright (C) 2023 Irineu A. Silva.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,12 +56,12 @@ class FocusController @Inject constructor(
                     recursive()
 
                     if (nodeFilter.filter(current)) {
-                        current.performFocus()
+                        current.performFocus(this)
                     }
                 }
 
                 if (nodeFilter.filter(current)) {
-                    current.performFocus()
+                    current.performFocus(this)
                 }
 
                 if (current.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)) {
@@ -73,7 +74,7 @@ class FocusController @Inject constructor(
                         }
                     )
 
-                    stop()
+                    this.stop()
                 }
             }
         }
@@ -88,7 +89,7 @@ class FocusController @Inject constructor(
             target.descendants(Direction.Right()) {
 
                 if (nodeFilter.filter(current)) {
-                    current.performFocus()
+                    current.performFocus(this)
                 }
 
                 recursive()
@@ -103,7 +104,7 @@ class FocusController @Inject constructor(
                 ) {
 
                     if (nodeFilter.filter(current)) {
-                        current.performFocus()
+                        current.performFocus(this)
                     }
 
                     recursive()
@@ -119,9 +120,29 @@ class FocusController @Inject constructor(
                         }
                     )
 
-                    stop()
+                    this.stop()
                 }
             }
         }
+    }
+
+    fun moveFocusToFirst() {
+        val root = getTarget() ?: return
+
+        val currentFocus = root.findFocus(AccessibilityNodeInfo.FOCUS_ACCESSIBILITY)
+
+        if (currentFocus == null) {
+            nodeScan {
+                root.descendants(Direction.Right()) {
+                    if (NodeFilter.Focusable.filter(current)) {
+                        current.performFocus(this)
+                    }
+                    recursive()
+                }
+            }
+            return
+        }
+
+        currentFocus.performAction(AccessibilityNodeInfo.ACTION_NEXT_AT_MOVEMENT_GRANULARITY)
     }
 }

@@ -1,8 +1,8 @@
 /*
- * BuildSrc module Gradle configurations
+ * build-logic module Gradle configurations
  *
+ * Copyright (C) 2023-2025 Patryk Miś.
  * Copyright (C) 2023 Irineu A. Silva.
- * Copyright (C) 2023 Patryk Miś.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,11 +23,20 @@ plugins {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
         vendor.set(JvmVendorSpec.ADOPTIUM)
     }
 }
 
 dependencies {
-    implementation(libs.android.gradlePluginApi)
+    compileOnly(libs.android.gradlePluginApi)
+}
+
+gradlePlugin {
+    plugins {
+        create("customPlugin") {
+            id = "com.neo.speaktouch.custom_plugin"
+            implementationClass = "CustomPlugin"
+        }
+    }
 }

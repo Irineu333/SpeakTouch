@@ -1,6 +1,7 @@
 /*
  * App build configurations.
  *
+ * Copyright (C) 2023-2025 Patryk Mis.
  * Copyright (C) 2023 Irineu A. Silva.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,32 +24,34 @@ plugins {
     alias(libs.plugins.dagger)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    id("com.neo.speaktouch.custom_plugin")
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
         vendor.set(JvmVendorSpec.ADOPTIUM)
     }
 }
 
-appVersion(VersionConfig.Type.DEV) {
+versionConfig {
     major = 1
     minor = 0
     patch = 0
+    type = VersionConfig.Type.DEV
 }
 
 android {
     namespace = "com.neo.speaktouch"
-    compileSdk = 34
-    buildToolsVersion = "34.0.0"
+    compileSdk = 35
+    buildToolsVersion = "35.0.1"
 
     if (keystorePropertiesFile.canRead()) {
         signingConfigs {
             create("release") {
-                properties(keystorePropertiesFile) { properties ->
+                loadPropertiesFromFile(keystorePropertiesFile) { properties ->
                     storeFile = rootProject.file(properties.getProperty("storeFile"))
                     storePassword = properties.getProperty("storePassword")
                     keyAlias = properties.getProperty("keyAlias")
@@ -64,15 +67,7 @@ android {
         configure<BasePluginExtension> { archivesName.set(rootProject.name) }
 
         minSdk = 22
-        targetSdk = 34
-
-        resourceConfigurations.addAll(
-            listOf(
-                "en",
-                "pl",
-                "pt"
-            )
-        )
+        targetSdk = 35
     }
 
     buildTypes {
@@ -98,8 +93,8 @@ android {
         buildConfig = true
     }
 
-    compileOptions {
-        kotlinOptions.freeCompilerArgs += "-Xcontext-receivers"
+    androidResources {
+        localeFilters += listOf("en", "pl", "pt")
     }
 
     testOptions {

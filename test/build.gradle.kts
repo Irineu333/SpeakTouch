@@ -26,34 +26,25 @@ plugins {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
         vendor.set(JvmVendorSpec.ADOPTIUM)
     }
 }
 
 android {
     namespace = "com.neo.test"
-    compileSdk = 34
-    buildToolsVersion = "34.0.0"
+    compileSdk = 35
+    buildToolsVersion = "35.0.1"
 
     defaultConfig {
         applicationId = "com.neo.speaktouch"
         applicationIdSuffix = "test"
 
         minSdk = 22
-        targetSdk = 34
+        targetSdk = 35
 
         versionCode = 1
         versionName = "1.0"
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     viewBinding.isEnabled = true

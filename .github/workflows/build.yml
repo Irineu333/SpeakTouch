@@ -12,17 +12,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: 21
           cache: gradle
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
 
       - name: Upload results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SpeakTouch-APKs
           path: app/build/outputs/apk/**/*.apk
