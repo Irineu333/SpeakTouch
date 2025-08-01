@@ -31,7 +31,7 @@ sealed interface Text {
     ) : Text
 
     data class Res(
-        @StringRes val res: Int,
+        @param:StringRes val res: Int,
         override val args: List<Any>
     ) : Text
 
