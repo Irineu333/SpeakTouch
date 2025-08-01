@@ -21,6 +21,7 @@ package com.neo.speaktouch.view
 import android.content.Context
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 
 class CustomList(
     context: Context
@@ -31,10 +32,12 @@ class CustomList(
     ) {
         super.onInitializeAccessibilityNodeInfo(info)
 
-        info.collectionInfo = AccessibilityNodeInfo.CollectionInfo(
-            1,
-            1,
-            false
-        )
+        AccessibilityNodeInfoCompat.wrap(info).apply {
+            info.collectionInfo = AccessibilityNodeInfo.CollectionInfo(
+                1,
+                1,
+                false
+            )
+        }
     }
 }

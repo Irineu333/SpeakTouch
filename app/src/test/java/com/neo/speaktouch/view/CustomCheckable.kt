@@ -21,6 +21,7 @@ package com.neo.speaktouch.view
 import android.content.Context
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 
 class CustomCheckable(
     context: Context
@@ -31,6 +32,8 @@ class CustomCheckable(
     ) {
         super.onInitializeAccessibilityNodeInfo(info)
 
-        info.isCheckable = true
+        AccessibilityNodeInfoCompat.wrap(info).apply {
+            isCheckable = true
+        }
     }
 }
