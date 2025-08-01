@@ -45,8 +45,8 @@ versionConfig {
 
 android {
     namespace = "com.neo.speaktouch"
-    compileSdk = 35
-    buildToolsVersion = "35.0.1"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
 
     if (keystorePropertiesFile.canRead()) {
         signingConfigs {

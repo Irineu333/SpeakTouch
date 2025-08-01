@@ -1,5 +1,5 @@
 /*
- * An example of a custom list.
+ * An example of a custom checkable.
  *
  * Copyright (C) 2023 Irineu A. Silva.
  *
@@ -21,8 +21,9 @@ package com.neo.speaktouch.view
 import android.content.Context
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 
-class CustomList(
+class CustomCheckable(
     context: Context
 ) : View(context) {
 
@@ -31,10 +32,8 @@ class CustomList(
     ) {
         super.onInitializeAccessibilityNodeInfo(info)
 
-        info.collectionInfo = AccessibilityNodeInfo.CollectionInfo(
-            1,
-            1,
-            false
-        )
+        AccessibilityNodeInfoCompat.wrap(info).apply {
+            isCheckable = true
+        }
     }
 }
